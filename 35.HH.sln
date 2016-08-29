@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "35.HH.AudioRenamer", "AudioRenamer\35.HH.AudioRenamer.csproj", "{EF9BBB4D-B462-4E20-8529-24568D6F7D57}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "35.HH.AudioDownloader", "Downloader\35.HH.AudioDownloader.csproj", "{17E67C7E-C89E-41F4-BC84-376504E2A6E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "35.HH.Core", "35.HH.Core\35.HH.Core.csproj", "{091298F7-6846-43BB-9472-91CD5A758E91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "35.HH.AudioCopier", "FileCopier\35.HH.AudioCopier.csproj", "{2289134B-E00D-467D-ABC5-F4DA4ADBEC9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "35.HH.AudioMaster", "35.HH.MusicMaster\35.HH.AudioMaster.csproj", "{05DBC206-EA4A-4EEA-994A-2CF667F3D83E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "35.HH.AudioDB", "AudioDB\35.HH.AudioDB.csproj", "{BDCD4112-E9BC-4310-B2B6-702B390210C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "35.HH.AudioDAL", "35.HH.AudioDAL\35.HH.AudioDAL.csproj", "{6A36EE2F-4334-41EF-B49E-FC7ADA2AAC69}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EF9BBB4D-B462-4E20-8529-24568D6F7D57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF9BBB4D-B462-4E20-8529-24568D6F7D57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF9BBB4D-B462-4E20-8529-24568D6F7D57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF9BBB4D-B462-4E20-8529-24568D6F7D57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17E67C7E-C89E-41F4-BC84-376504E2A6E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17E67C7E-C89E-41F4-BC84-376504E2A6E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17E67C7E-C89E-41F4-BC84-376504E2A6E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17E67C7E-C89E-41F4-BC84-376504E2A6E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{091298F7-6846-43BB-9472-91CD5A758E91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{091298F7-6846-43BB-9472-91CD5A758E91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{091298F7-6846-43BB-9472-91CD5A758E91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{091298F7-6846-43BB-9472-91CD5A758E91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2289134B-E00D-467D-ABC5-F4DA4ADBEC9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2289134B-E00D-467D-ABC5-F4DA4ADBEC9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2289134B-E00D-467D-ABC5-F4DA4ADBEC9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2289134B-E00D-467D-ABC5-F4DA4ADBEC9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05DBC206-EA4A-4EEA-994A-2CF667F3D83E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05DBC206-EA4A-4EEA-994A-2CF667F3D83E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05DBC206-EA4A-4EEA-994A-2CF667F3D83E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05DBC206-EA4A-4EEA-994A-2CF667F3D83E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDCD4112-E9BC-4310-B2B6-702B390210C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDCD4112-E9BC-4310-B2B6-702B390210C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDCD4112-E9BC-4310-B2B6-702B390210C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDCD4112-E9BC-4310-B2B6-702B390210C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A36EE2F-4334-41EF-B49E-FC7ADA2AAC69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A36EE2F-4334-41EF-B49E-FC7ADA2AAC69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A36EE2F-4334-41EF-B49E-FC7ADA2AAC69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A36EE2F-4334-41EF-B49E-FC7ADA2AAC69}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
