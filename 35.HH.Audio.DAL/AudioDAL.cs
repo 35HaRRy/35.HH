@@ -1,17 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Data;
-using System.Configuration;
 using System.Data.SqlClient;
 using System.Collections.Generic;
 
-using PixelSoftOffice.Core;
 using PixelSoftOffice.Data;
-//using PixelSoftOffice.Web.Extensions;
 
-namespace _35.HH.AudioDAL
+namespace _35.HH.Audio.DAL
 {
     public class AudioDAL
     {

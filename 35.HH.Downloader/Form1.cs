@@ -1,19 +1,14 @@
 ﻿using System;
 using System.IO;
-using System.Net;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Drawing;
 using System.Xml.Linq;
 using System.Threading;
 using System.Diagnostics;
 using System.Windows.Forms;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-using Google.Apis.Upload;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using Google.Apis.YouTube.v3;
@@ -21,9 +16,6 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.YouTube.v3.Data;
 
 using YoutubeExtractor;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 using _35.HH.Core;
 

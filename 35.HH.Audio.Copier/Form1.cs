@@ -4,8 +4,6 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 
-using _35.HH.Core;
-
 namespace FileCopier
 {
     public partial class Form1 : Form
