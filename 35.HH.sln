@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "35.HH.AudioRenamer", "AudioRenamer\35.HH.AudioRenamer.csproj", "{EF9BBB4D-B462-4E20-8529-24568D6F7D57}"
 EndProject
@@ -16,6 +16,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "35.HH.AudioDB", "AudioDB\35.HH.AudioDB.csproj", "{BDCD4112-E9BC-4310-B2B6-702B390210C2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "35.HH.AudioDAL", "35.HH.AudioDAL\35.HH.AudioDAL.csproj", "{6A36EE2F-4334-41EF-B49E-FC7ADA2AAC69}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DF3681AE-8C63-4F55-864D-584B40BCAF34}"
+	ProjectSection(SolutionItems) = preProject
+		AudioDB.mdf = AudioDB.mdf
+		AudioDB_log.ldf = AudioDB_log.ldf
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
