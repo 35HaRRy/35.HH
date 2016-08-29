@@ -38,7 +38,6 @@
             this.msMain.Name = "msMain";
             this.msMain.Size = new System.Drawing.Size(284, 24);
             this.msMain.TabIndex = 0;
-            this.msMain.Text = "mainMenuStrip1";
             // 
             // tbcMain
             // 

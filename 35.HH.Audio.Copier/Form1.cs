@@ -3,6 +3,7 @@ using System.IO;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace FileCopier
 {
@@ -14,8 +15,8 @@ namespace FileCopier
 
         public string sourcePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Musics\";
         public string destionationPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Yabancı\";
-
-        public long destionationDirectorySize = 0;
+        
+        public List<string> copiedFileNames = new List<string>();
         #endregion
 
         public Form1()
@@ -36,16 +37,12 @@ namespace FileCopier
 
             int sourceRuleNameCount = 0;
 
-            long sourceDirectorySize = 0;
-            destionationDirectorySize = 0;
-
             DirectoryInfo sourceDirectory = new DirectoryInfo(sourcePath);
             sourceFiles = sourceDirectory.GetFiles().OrderBy(x => x.Name).ToArray<FileInfo>();
             
+            copiedFileNames = new List<string>();
             foreach (FileInfo sourceFile in sourceFiles)
-            {
-                sourceDirectorySize += sourceFile.Length;
-                
+            {                
                 sourceRuleName = sourceFile.Name.Split(sourceRule)[0].Trim();
                 if (sourceRuleName != lastRuleName)
                 {
@@ -59,14 +56,23 @@ namespace FileCopier
                     sourceRuleNameCount = 1;
                 }
                 else
+                {
+                    if (sourceFile.Name.Trim().StartsWith("-"))
+                        CopyFile(destionationPath + "Diğer", sourceFile);
+
                     sourceRuleNameCount++;
+                }
             }
 
             CreateNewRuleProcess(lastRuleName, sourceRuleNameCount, out message);
             resultMessage += message;
 
-            if (sourceDirectorySize != destionationDirectorySize)
-                resultMessage += "\nDosyaların bazıları kopylanamadı. Lütfen kontrol ediniz.";
+            if (sourceFiles.Length > copiedFileNames.Count)
+            {
+                resultMessage += string.Format("\nDosyaların bazıları kopylanamadı. Lütfen kontrol ediniz.\nKopyalanan dosya sayısı: {0}. Kaynak dosya sayısı: {1}\nKopyalanamayan dosyalar:", copiedFileNames.Count, sourceFiles.Length);
+                foreach (string fileName in sourceFiles.Select(x => x.Name).Except(copiedFileNames))
+                    resultMessage += "\n\t" + fileName;
+            }
 
             if (!string.IsNullOrEmpty(resultMessage))
                 MessageBox.Show(resultMessage);
@@ -83,9 +89,7 @@ namespace FileCopier
                 try
                 {
                     FileInfo newRuleFile = newRuleFiles.Last<FileInfo>();
-                    newRuleFile.CopyTo(destionationPath + "Diğer\\" + newRuleFile.Name, true);
-
-                    destionationDirectorySize += newRuleFile.Length;
+                    CopyFile(destionationPath + "Diğer", newRuleFile);
                 }
                 catch (Exception ex)
                 {
@@ -100,8 +104,7 @@ namespace FileCopier
                     {
                         try
                         {
-                            newRuleFile.CopyTo(destionationPath + newRuleName + "\\" + newRuleFile.Name, true);
-                            destionationDirectorySize += newRuleFile.Length;
+                            CopyFile(destionationPath + newRuleName, newRuleFile);
                         }
                         catch (Exception ex)
                         {
@@ -110,6 +113,11 @@ namespace FileCopier
                     }
                 }
             }
+        }
+        private void CopyFile(string path, FileInfo fInfo)
+        {
+            fInfo.CopyTo(path + @"\" + fInfo.Name, true);
+            copiedFileNames.Add(fInfo.Name);
         }
         #endregion
     }
