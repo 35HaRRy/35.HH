@@ -2,8 +2,11 @@
 using System.IO;
 using System.Data;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using System.Collections.Generic;
+
+using _35.HH.Core;
 
 namespace FileCopier
 {
@@ -23,12 +26,14 @@ namespace FileCopier
         {
             InitializeComponent();
 
-            LoadForm();
+            new Thread(new ThreadStart(LoadForm)).Start();
         }
 
         #region Utils
         private void LoadForm()
         {
+            lbResult.ItemsClear();
+
             string message = "";
             string resultMessage = "";
 
@@ -39,6 +44,7 @@ namespace FileCopier
 
             DirectoryInfo sourceDirectory = new DirectoryInfo(sourcePath);
             sourceFiles = sourceDirectory.GetFiles().OrderBy(x => x.Name).ToArray<FileInfo>();
+            lblSourceFileCount.SetText(sourceFiles.Length.ToString());
             
             copiedFileNames = new List<string>();
             foreach (FileInfo sourceFile in sourceFiles)
@@ -69,7 +75,7 @@ namespace FileCopier
 
             if (sourceFiles.Length > copiedFileNames.Count)
             {
-                resultMessage += string.Format("\nDosyaların bazıları kopylanamadı. Lütfen kontrol ediniz.\nKopyalanan dosya sayısı: {0}. Kaynak dosya sayısı: {1}\nKopyalanamayan dosyalar:", copiedFileNames.Count, sourceFiles.Length);
+                resultMessage += "\nDosyaların bazıları kopylanamadı. Lütfen kontrol ediniz.\nKopyalanamayan dosyalar:";
                 foreach (string fileName in sourceFiles.Select(x => x.Name).Except(copiedFileNames))
                     resultMessage += "\n\t" + fileName;
             }
@@ -116,8 +122,16 @@ namespace FileCopier
         }
         private void CopyFile(string path, FileInfo fInfo)
         {
-            fInfo.CopyTo(path + @"\" + fInfo.Name, true);
-            copiedFileNames.Add(fInfo.Name);
+            FileInfo copiedFile = fInfo.CopyTo(path + @"\" + fInfo.Name, true);
+            if (copiedFile.Exists)
+            {
+                copiedFileNames.Add(fInfo.Name);
+
+                lblCopiedFileCount.SetText(copiedFileNames.Count.ToString());
+                lbResult.AddItem(string.Format(@"""{0}"" dosyası, ""{1}"" klasörüne kopyalandı", fInfo.Name, path));
+            }
+
+            Thread.Sleep(200);
         }
         #endregion
     }

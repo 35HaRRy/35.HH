@@ -28,6 +28,8 @@ namespace _35.HH.Core
         delegate void AddColumnCallback(DataGridView gv, DataGridViewColumn gc);
         delegate void SetVisibiltyCallback(Control control, Boolean visible);
         delegate void SetTextCallback(Control control, string newText);
+        delegate void AddItemCallback(ListBox lb, object item);
+        delegate void ItemsClearCallback(ListBox lb);
         delegate void ProcessDelegate();
 
         public static void AddRow(this DataGridView gv, DataGridViewRow gvr)
@@ -79,6 +81,26 @@ namespace _35.HH.Core
             }
             else
                 control.Text = text;
+        }
+        public static void AddItem(this ListBox lb, object item)
+        {
+            if (lb.InvokeRequired)
+            {
+                AddItemCallback _gvr = new AddItemCallback(AddItem);
+                lb.Invoke(_gvr, new object[] { lb, item });
+            }
+            else
+                lb.Items.Add(item);
+        }
+        public static void ItemsClear(this ListBox lb)
+        {
+            if (lb.InvokeRequired)
+            {
+                ItemsClearCallback _gvr = new ItemsClearCallback(ItemsClear);
+                lb.Invoke(_gvr, new object[] { lb });
+            }
+            else
+                lb.Items.Clear();
         }
         #endregion
 
