@@ -18,7 +18,7 @@ namespace AudioDB
         #region Properities
         private AudioDAL AudioDAL;
 
-        private string rootPath;
+        private string rootPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
         private string resultMessage;
 
@@ -36,6 +36,8 @@ namespace AudioDB
             InitializeComponent();
 
             LoadForm();
+
+            DataTable dt = Functions.GetSqlInstances(true);
         }
 
         #region BtnEvents

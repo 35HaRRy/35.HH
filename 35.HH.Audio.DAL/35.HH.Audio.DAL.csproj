@@ -58,7 +58,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioDAL.cs" />
+    <Compile Include="AudioDBBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\35.HH.Core\35.HH.Core.csproj">
+      <Project>{091298F7-6846-43BB-9472-91CD5A758E91}</Project>
+      <Name>35.HH.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
