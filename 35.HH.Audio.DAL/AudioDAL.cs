@@ -5,6 +5,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Collections.Generic;
 
+using _35.HH.AudioDAL;
+
 using PixelSoftOffice.Data;
 
 namespace _35.HH.Audio.DAL
@@ -58,7 +60,7 @@ namespace _35.HH.Audio.DAL
                 sqlParams.Add(new SqlParameter("@LastWriteTime", file.LastWriteTime));
                 sqlParams.Add(new SqlParameter("@RegDate", DateTime.Now));
 
-                new Base().Execute("InsertUpdate_AudioFile", sqlParams, out message, out messageType);
+                new AudioDBBase().Execute("InsertUpdate_AudioFile", sqlParams, out message, out messageType);
                 if (messageType == 0)
                     throw new Exception(message);
             }
@@ -71,12 +73,12 @@ namespace _35.HH.Audio.DAL
 
         public DataTable GetAudios()
         {
-            return new Base().Execute("Get_Audios");
+            return new AudioDBBase().Execute("Get_Audios");
         }
 
         public void DeleteAudios()
         {
-            new Base().Execute("Delete_Audios");
+            new AudioDBBase().Execute("Delete_Audios");
         }
     }
 }

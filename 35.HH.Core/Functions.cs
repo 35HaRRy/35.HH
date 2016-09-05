@@ -3,10 +3,12 @@ using System.IO;
 using System.Linq;
 using System.Data;
 using System.Drawing;
-using System.Threading;
+using System.Data.Sql;
+using System.Reflection;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Microsoft.Win32;
 
 namespace _35.HH.Core
 {
@@ -115,6 +117,11 @@ namespace _35.HH.Core
 
             return size;
         }
+        public static string GetProjectPath(string projectName)
+        {
+            string[] pathItems = Assembly.GetExecutingAssembly().Location.Split('\\');
+            return string.Join("\\", pathItems.TakeWhile(x => x != projectName).ToArray()) + "\\" + projectName + "\\";
+        }
 
         public static string GetMimeFromFile(string filename)
         {
@@ -173,6 +180,35 @@ namespace _35.HH.Core
             }
 
             return b;
+        }
+        #endregion
+
+        #region Utils
+        public static DataTable GetSqlInstances(Boolean isLocal = false)
+        {
+            DataTable dt = new DataTable();
+
+            if (isLocal)
+            {
+                dt.Columns.Add("ServerName");
+                dt.Columns.Add("InstanceName");
+
+                //RegistryKey rk = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names");
+                //string[] instances = rk.GetValue("InstalledInstances") as string[];
+
+                //if (instances.Length > 0)
+                //{
+                //    foreach (string element in instances)
+                //        dt.Rows.Add(Environment.MachineName, element);
+                //}
+
+
+                Microsoft.SqlServer.Management.Smo.SmoApplication.EnumAvailableSqlServers
+            }
+            else
+                dt = SqlDataSourceEnumerator.Instance.GetDataSources();
+
+            return dt;
         }
         #endregion
     }
