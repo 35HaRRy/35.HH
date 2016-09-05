@@ -30,14 +30,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PixelSoftOffice.Core">
-      <HintPath>..\packages\Pixelsoftoffice.Core.1.1.0\lib\net\PixelSoftOffice.Core.dll</HintPath>
+    <Reference Include="PixelSoftOffice.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pixelsoftoffice.Core.1.8.10\lib\net\PixelSoftOffice.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="PixelSoftOffice.Data">
-      <HintPath>..\packages\Pixelsoftoffice.Data.1.0.10\lib\net\PixelSoftOffice.Data.dll</HintPath>
+    <Reference Include="PixelSoftOffice.Data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pixelsoftoffice.Data.1.0.16\lib\net\PixelSoftOffice.Data.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="PixelSoftOffice.Web.Extensions">
-      <HintPath>..\packages\Pixelsoftoffice.Web.Extensions.1.0.1\lib\net\PixelSoftOffice.Web.Extensions.dll</HintPath>
+    <Reference Include="PixelSoftOffice.Web.Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pixelsoftoffice.Web.Extensions.1.3.2\lib\net\PixelSoftOffice.Web.Extensions.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="policy.2.0.taglib-sharp">
       <HintPath>..\policy.2.0.taglib-sharp.dll</HintPath>

@@ -26,6 +26,9 @@ namespace AudioDB
         private int finishedWorkerCount;
 
         //private Size editCellSize;
+
+        private int pageSize = 20;
+        public List<TagLib.File> audioFiles = new List<TagLib.File>();
         #endregion
 
         public Form1()
@@ -41,11 +44,14 @@ namespace AudioDB
             fBD.Description = "Choose Musics director";
             if (fBD.ShowDialog().Equals(DialogResult.OK))
             {
-                rootPath = fBD.SelectedPath;
+                new Thread(new ThreadStart(() =>
+                {
+                    rootPath = fBD.SelectedPath;
 
-                gvAudios.Rows.Clear();
-                ListAudoFile();
-                //ListAudoFile2();
+                    gvAudios.RowsClear();
+                    //ListAudoFile();
+                    ListAudoFile2();
+                })).Start();
             }
             //else
             //    MessageBox.Show("Root director is empty");
@@ -111,15 +117,16 @@ namespace AudioDB
         }
         #endregion
 
-        #region Utils
-        private void LoadForm()
+        #region BindingSource Events
+        private void bsAudios_CurrentChanged(object sender, EventArgs e)
         {
-            AudioDAL = new AudioDAL();
-
-            //rootPath = fBD.SelectedPath = "C:\\Users\\hayri.PIXELSOFTOFFICE\\Desktop\\Hayri\\Music";
-            rootPath = fBD.SelectedPath = "F:\\Music";
+            IEnumerable<TagLib.File> remainingFiles = audioFiles.Skip((int)bsAudios.Current * pageSize);
+            //gvAudios.DataSource = remainingFiles.Count() < pageSize ? remainingFiles : remainingFiles.Take(pageSize);
+            gvAudios.SetPropertyInThread("DataSource", remainingFiles.Count() < pageSize ? remainingFiles : remainingFiles.Take(pageSize));
         }
+        #endregion
 
+        #region Bindings
         private void ListAudoFile()
         {
             resultMessage = "";
@@ -129,6 +136,9 @@ namespace AudioDB
             string[] filePaths = Directory.GetFiles(rootPath, "*.*", SearchOption.AllDirectories);
             lblTotal.SetText("Total " + filePaths.Length);
 
+            bnAudios.BindingSource = bsAudios;
+            bsAudios.DataSource = new PageOffsetList();
+
             List<Thread> threads = new List<Thread>();
             finishedThreadCount = 0;
 
@@ -136,7 +146,7 @@ namespace AudioDB
             {
                 //if (CheckThreadLimit(threads))
                 //{
-                //    Thread thread = new Thread(() => SetAudoFile(filePath));
+                //    Thread thread = new Thread(new ThreadStart(() => SetAudoFile(filePath)));
                 //    threads.Add(thread);
 
                 //    thread.Start();
@@ -152,11 +162,14 @@ namespace AudioDB
         private void ListAudoFile2()
         {
             resultMessage = "";
-            
+
             AudioDAL.DeleteAudios();
 
             string[] filePaths = Directory.GetFiles(rootPath, "*.*", SearchOption.AllDirectories);
             lblTotal.SetText("Total " + filePaths.Length);
+            
+            //bnAudios.SetPropertyInThread("BindingSource", bsAudios);
+            //bnAudios.SetBindingSourceSource(bsAudios, new PageOffsetList());
 
             List<BackgroundWorker> workers = new List<BackgroundWorker>();
             finishedWorkerCount = 0;
@@ -178,6 +191,34 @@ namespace AudioDB
                 MessageBox.Show(resultMessage);
         }
 
+        class PageOffsetList : IListSource
+        {
+            public bool ContainsListCollection { get; protected set; }
+            public int TotalFileCount = 0;
+
+            private int pageSize = 20;
+
+            public System.Collections.IList GetList()
+            {
+                // Return a list of page offsets based on "totalRecords" and "pageSize"
+                var pageOffsets = new List<int>();
+                for (int offset = 0; offset < TotalFileCount; offset += pageSize)
+                    pageOffsets.Add(offset);
+
+                return pageOffsets;
+            }
+        }
+        #endregion
+
+        #region Utils
+        private void LoadForm()
+        {
+            AudioDAL = new AudioDAL();
+
+            //rootPath = fBD.SelectedPath = "C:\\Users\\hayri.PIXELSOFTOFFICE\\Desktop\\Hayri\\Music";
+            rootPath = fBD.SelectedPath = "F:\\Music";
+        }
+
         private void SetAudoFile(string filePath)
         {
             int messageType = 0;
@@ -188,7 +229,14 @@ namespace AudioDB
                 TagLib.File audioFile = TagLib.File.Create(filePath);
 
                 AudioDAL.InsertUpdateAudioFile(audioFile, out message, out messageType);
-                Functions.AddRow(gvAudios, GetNewRow(audioFile));
+                audioFiles.Add(audioFile);
+                //gvAudios.AddRow(GetNewRow(audioFile));
+
+                bnAudios.SetPropertyInThread("BindingSource", bsAudios);
+                bnAudios.SetBindingSourceSource(bsAudios, new PageOffsetList() { TotalFileCount = audioFiles.Count });
+
+                //if (audioFiles.Count() % pageSize == 0)
+                    bsAudios.Position = audioFiles.Count() / pageSize;
             }
             catch (Exception ex)
             {
@@ -202,7 +250,7 @@ namespace AudioDB
         {
             DataGridViewRow gvr = new DataGridViewRow();
             gvr.CreateCells(gvAudios);
-
+            
             gvr.Cells[1].Value = audioFile.Name;
             gvr.Cells[2].Value = audioFile.Tag.Title;
             gvr.Cells[3].Value = audioFile.Tag.TrackCount;
@@ -219,7 +267,7 @@ namespace AudioDB
             string destionationSubDirectoryPath = destionationFilePath.Replace(destionationFilePath.Split('\\').Last(), "");
             if (!string.IsNullOrEmpty(destionationSubDirectoryPath))
             {
-                if(!Directory.Exists(destionDirectoryPath + "\\" + destionationSubDirectoryPath))
+                if (!Directory.Exists(destionDirectoryPath + "\\" + destionationSubDirectoryPath))
                     Directory.CreateDirectory(destionDirectoryPath + "\\" + destionationSubDirectoryPath);
             }
 
@@ -229,30 +277,30 @@ namespace AudioDB
         private Boolean CheckThreadLimit(List<Thread> threads)
         {
             int threadLimit = 100;
-            //int runningThreadCount = threads.Count(x => x.ThreadState == ThreadState.Running);
             int runningThreadCount = threads.Count - finishedThreadCount;
 
             if (runningThreadCount < threadLimit)
                 return true;
             else
             {
-                Thread.Sleep(10 * 1000);
+                Thread.Sleep(1000);
                 return CheckThreadLimit(threads);
             }
         }
         private Boolean CheckWorkerLimit(List<BackgroundWorker> workers)
         {
             int workerLimit = 300;
-            int runningWorkerCount = workers.Count - finishedWorkerCount;
+            //int runningWorkerCount = workers.Count - finishedWorkerCount;
+            int runningWorkerCount = workers.Count - workers.Count(x => !x.IsBusy);
 
             if (runningWorkerCount < workerLimit)
                 return true;
             else
             {
-                Thread.Sleep(10 * 1000);
+                Thread.Sleep(1000);
                 return CheckWorkerLimit(workers);
             }
         }
         #endregion
     }
-} 
+}

@@ -3,8 +3,9 @@ using System.IO;
 using System.Linq;
 using System.Data;
 using System.Drawing;
-using System.Threading;
+using System.Reflection;
 using System.Windows.Forms;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
@@ -30,6 +31,11 @@ namespace _35.HH.Core
         delegate void SetTextCallback(Control control, string newText);
         delegate void AddItemCallback(ListBox lb, object item);
         delegate void ItemsClearCallback(ListBox lb);
+        delegate void RowsClearCallback(DataGridView dgv);
+
+        delegate void SetPropertyCallback(Control control, string propertyName, object value);
+        delegate void SetBindingSourceCallback(BindingNavigator bn, BindingSource bs, IListSource datasource);
+
         delegate void ProcessDelegate();
 
         public static void AddRow(this DataGridView gv, DataGridViewRow gvr)
@@ -101,6 +107,43 @@ namespace _35.HH.Core
             }
             else
                 lb.Items.Clear();
+        }
+        public static void RowsClear(this DataGridView dgv)
+        {
+            if (dgv.InvokeRequired)
+            {
+                RowsClearCallback _dgv = new RowsClearCallback(RowsClear);
+                dgv.Invoke(_dgv, new object[] { dgv });
+            }
+            else
+                dgv.Rows.Clear();
+        }
+
+        public static void SetPropertyInThread(this Control control, string propertyName, object value)
+        {
+            if (control.InvokeRequired)
+            {
+                SetPropertyCallback _control = new SetPropertyCallback(SetPropertyInThread);
+                control.Invoke(_control, new object[] { control, propertyName, value });
+            }
+            else
+                control.SetProperty(propertyName, value);
+        }
+        public static void SetBindingSourceSource(this BindingNavigator bn, BindingSource bs, IListSource datasource)
+        {
+            if (bn.InvokeRequired)
+            {
+                SetBindingSourceCallback _bn = new SetBindingSourceCallback(SetBindingSourceSource);
+                bn.Invoke(_bn, new object[] { bn, bs, datasource });
+            }
+            else
+                bs.DataSource = datasource;
+        }
+        public static void SetProperty(this Control control, string propertyName, object value)
+        {
+            PropertyInfo pInfo = control.GetType().GetProperty(propertyName);
+            if (pInfo != null)
+                pInfo.SetValue(control, value);
         }
         #endregion
 

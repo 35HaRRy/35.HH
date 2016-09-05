@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Collections.Generic;
 
 using PixelSoftOffice.Data;
+using PixelSoftOffice.Web.Extensions;
 
 namespace _35.HH.Audio.DAL
 {
@@ -35,28 +36,28 @@ namespace _35.HH.Audio.DAL
                 }
 
                 List<SqlParameter> sqlParams = new List<SqlParameter>();
-                sqlParams.Add(new SqlParameter("@FilePath", audioFile.Name));
-                sqlParams.Add(new SqlParameter("@Title", audioFile.Tag.Title.ToDBValue()));
-                sqlParams.Add(new SqlParameter("@Album", audioFile.Tag.Album.ToDBValue()));
-                sqlParams.Add(new SqlParameter("@Performers", string.Join(", ", audioFile.Tag.Performers).ToDBValue()));
-                sqlParams.Add(new SqlParameter("@Composers", string.Join(", ", audioFile.Tag.Composers).ToDBValue()));
-                sqlParams.Add(new SqlParameter("@Duration", audioFile.Properties.Duration.TotalSeconds));
-                sqlParams.Add(new SqlParameter("@Track", Convert.ToInt32(audioFile.Tag.Track)));
-                sqlParams.Add(new SqlParameter("@TrackCount", Convert.ToInt32(audioFile.Tag.TrackCount)));
-                sqlParams.Add(new SqlParameter("@Genres", string.Join(", ", audioFile.Tag.Genres).ToDBValue()));
-                sqlParams.Add(new SqlParameter("@Lyrics", audioFile.Tag.Lyrics.ToDBValue()));
-                sqlParams.Add(new SqlParameter("@Conductor", audioFile.Tag.Conductor.ToDBValue()));
-                sqlParams.Add(new SqlParameter("@Copyright", audioFile.Tag.Copyright.ToDBValue()));
-                sqlParams.Add(new SqlParameter("@Comment", audioFile.Tag.Comment.ToDBValue()));
-                //sqlParams.Add(new SqlParameter("@Pictures", string.Join(", ", audioFile.Tag.Pictures)));
-                sqlParams.Add(new SqlParameter("@Description", audioFile.Properties.Description.ToDBValue()));
-                sqlParams.Add(new SqlParameter("@PossiblyCorrupt", audioFile.PossiblyCorrupt.ToDBValue()));
-                sqlParams.Add(new SqlParameter("@CorruptionReasons", audioFile.CorruptionReasons.ToDBValue()));
+                sqlParams.AddParameter("@FilePath", audioFile.Name);
+                sqlParams.AddParameter("@Title", audioFile.Tag.Title);
+                sqlParams.AddParameter("@Album", audioFile.Tag.Album);
+                sqlParams.AddParameter("@Performers", string.Join(", ", audioFile.Tag.Performers));
+                sqlParams.AddParameter("@Composers", string.Join(", ", audioFile.Tag.Composers));
+                sqlParams.AddParameter("@Duration", audioFile.Properties.Duration.TotalSeconds);
+                sqlParams.AddParameter("@Track", Convert.ToInt32(audioFile.Tag.Track));
+                sqlParams.AddParameter("@TrackCount", Convert.ToInt32(audioFile.Tag.TrackCount));
+                sqlParams.AddParameter("@Genres", string.Join(", ", audioFile.Tag.Genres));
+                sqlParams.AddParameter("@Lyrics", audioFile.Tag.Lyrics);
+                sqlParams.AddParameter("@Conductor", audioFile.Tag.Conductor);
+                sqlParams.AddParameter("@Copyright", audioFile.Tag.Copyright);
+                sqlParams.AddParameter("@Comment", audioFile.Tag.Comment);
+                //sqlParams.AddParameter("@Pictures", string.Join(", ", audioFile.Tag.Pictures));
+                sqlParams.AddParameter("@Description", audioFile.Properties.Description);
+                sqlParams.AddParameter("@PossiblyCorrupt", audioFile.PossiblyCorrupt);
+                sqlParams.AddParameter("@CorruptionReasons", audioFile.CorruptionReasons);
 
-                sqlParams.Add(new SqlParameter("@Length", file.Length));
-                sqlParams.Add(new SqlParameter("@CreationTime", file.CreationTime));
-                sqlParams.Add(new SqlParameter("@LastWriteTime", file.LastWriteTime));
-                sqlParams.Add(new SqlParameter("@RegDate", DateTime.Now));
+                sqlParams.AddParameter("@Length", file.Length);
+                sqlParams.AddParameter("@CreationTime", file.CreationTime);
+                sqlParams.AddParameter("@LastWriteTime", file.LastWriteTime);
+                sqlParams.AddParameter("@RegDate", DateTime.Now);
 
                 new Base().Execute("InsertUpdate_AudioFile", sqlParams, out message, out messageType);
                 if (messageType == 0)
