@@ -2,13 +2,11 @@
 using System.IO;
 using System.Linq;
 using System.Data;
-using System.Drawing;
 using System.Data.Sql;
 using System.Reflection;
-using System.Windows.Forms;
-using System.ComponentModel;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+
 using Microsoft.Win32;
 
 namespace _35.HH.Core
@@ -24,130 +22,6 @@ namespace _35.HH.Core
 
             return result;
         }
-
-        #region Set&Craete
-        delegate void AddRowCallback(DataGridView gv, DataGridViewRow gc);
-        delegate void UpdateRowCellsCallback(DataGridView gv, DataGridViewRow gvr, DataGridViewCellCollection gvrCells);
-        delegate void AddColumnCallback(DataGridView gv, DataGridViewColumn gc);
-        delegate void SetVisibiltyCallback(Control control, Boolean visible);
-        delegate void SetTextCallback(Control control, string newText);
-        delegate void AddItemCallback(ListBox lb, object item);
-        delegate void ItemsClearCallback(ListBox lb);
-        delegate void RowsClearCallback(DataGridView dgv);
-
-        delegate void SetPropertyCallback(Control control, string propertyName, object value);
-        delegate void SetBindingSourceCallback(BindingNavigator bn, BindingSource bs, IListSource datasource);
-
-        delegate void ProcessDelegate();
-
-        public static void AddRow(this DataGridView gv, DataGridViewRow gvr)
-        {
-            if (gv.InvokeRequired)
-            {
-                AddRowCallback _gvr = new AddRowCallback(AddRow);
-                gv.Invoke(_gvr, new object[] { gv, gvr });
-            }
-            else
-                gv.Rows.Add(gvr);
-        }
-        public static void UpdateRowCells(this DataGridView gv, DataGridViewRow gvr, DataGridViewCellCollection gvrCells)
-        {
-            if (gv.InvokeRequired)
-            {
-                UpdateRowCellsCallback _gvr = new UpdateRowCellsCallback(UpdateRowCells);
-                gv.Invoke(_gvr, new object[] { gv, gvr, gvrCells });
-            }
-            else
-                gvr.SetValues(gvrCells.Cast<DataGridViewCell>().Select(x => x.Value).ToArray());
-        }
-        public static void AddColumn(this DataGridView gv, DataGridViewColumn gc)
-        {
-            if (gv.InvokeRequired)
-            {
-                AddColumnCallback _gc = new AddColumnCallback(AddColumn);
-                gv.Invoke(_gc, new object[] { gv, gc });
-            }
-            else
-                gv.Columns.Add(gc);
-        }
-        public static void SetVisibilty(this Control control, Boolean visible)
-        {
-            if (control.InvokeRequired)
-            {
-                SetVisibiltyCallback _visible = new SetVisibiltyCallback(SetVisibilty);
-                control.Invoke(_visible, new object[] { control, visible });
-            }
-            else
-                control.Visible = visible;
-        }
-        public static void SetText(this Control control, string text)
-        {
-            if (control.InvokeRequired)
-            {
-                SetTextCallback _text = new SetTextCallback(SetText);
-                control.Invoke(_text, new object[] { control, text });
-            }
-            else
-                control.Text = text;
-        }
-        public static void AddItem(this ListBox lb, object item)
-        {
-            if (lb.InvokeRequired)
-            {
-                AddItemCallback _gvr = new AddItemCallback(AddItem);
-                lb.Invoke(_gvr, new object[] { lb, item });
-            }
-            else
-                lb.Items.Add(item);
-        }
-        public static void ItemsClear(this ListBox lb)
-        {
-            if (lb.InvokeRequired)
-            {
-                ItemsClearCallback _gvr = new ItemsClearCallback(ItemsClear);
-                lb.Invoke(_gvr, new object[] { lb });
-            }
-            else
-                lb.Items.Clear();
-        }
-        public static void RowsClear(this DataGridView dgv)
-        {
-            if (dgv.InvokeRequired)
-            {
-                RowsClearCallback _dgv = new RowsClearCallback(RowsClear);
-                dgv.Invoke(_dgv, new object[] { dgv });
-            }
-            else
-                dgv.Rows.Clear();
-        }
-
-        public static void SetPropertyInThread(this Control control, string propertyName, object value)
-        {
-            if (control.InvokeRequired)
-            {
-                SetPropertyCallback _control = new SetPropertyCallback(SetPropertyInThread);
-                control.Invoke(_control, new object[] { control, propertyName, value });
-            }
-            else
-                control.SetProperty(propertyName, value);
-        }
-        public static void SetBindingSourceSource(this BindingNavigator bn, BindingSource bs, IListSource datasource)
-        {
-            if (bn.InvokeRequired)
-            {
-                SetBindingSourceCallback _bn = new SetBindingSourceCallback(SetBindingSourceSource);
-                bn.Invoke(_bn, new object[] { bn, bs, datasource });
-            }
-            else
-                bs.DataSource = datasource;
-        }
-        public static void SetProperty(this Control control, string propertyName, object value)
-        {
-            PropertyInfo pInfo = control.GetType().GetProperty(propertyName);
-            if (pInfo != null)
-                pInfo.SetValue(control, value);
-        }
-        #endregion
 
         #region FileUtils
         public static long GetDirectoryFileSize(string directoryPath)
@@ -211,22 +85,7 @@ namespace _35.HH.Core
             System.UInt32 dwReserverd
         ); 
         #endregion
-
-        #region Drawing
-        public static Bitmap Resize(this Bitmap img, Size size)
-        {
-            Bitmap b = new Bitmap(size.Width, size.Height);
-            using (Graphics g = Graphics.FromImage((Image)b))
-            {
-                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                g.DrawImage(img, 0, 0, size.Width, size.Height);
-            }
-
-            return b;
-        }
-        #endregion
-
-        #region Utils
+        
         public static DataTable GetSqlInstances(Boolean isLocal = false)
         {
             DataTable dt = new DataTable();
@@ -236,23 +95,22 @@ namespace _35.HH.Core
                 dt.Columns.Add("ServerName");
                 dt.Columns.Add("InstanceName");
 
-                //RegistryKey rk = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names");
-                //string[] instances = rk.GetValue("InstalledInstances") as string[];
+                using (var hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
+                {
+                    RegistryKey rk = hklm.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SQL Server");
+                    string[] instances = rk.GetValue("InstalledInstances") as string[];
 
-                //if (instances.Length > 0)
-                //{
-                //    foreach (string element in instances)
-                //        dt.Rows.Add(Environment.MachineName, element);
-                //}
-
-
-                Microsoft.SqlServer.Management.Smo.SmoApplication.EnumAvailableSqlServers
+                    if (instances.Length > 0)
+                    {
+                        foreach (string element in instances)
+                            dt.Rows.Add(Environment.MachineName, element);
+                    }
+                }
             }
             else
                 dt = SqlDataSourceEnumerator.Instance.GetDataSources();
 
             return dt;
         }
-        #endregion
     }
 }

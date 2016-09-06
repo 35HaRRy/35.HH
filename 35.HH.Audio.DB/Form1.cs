@@ -36,8 +36,6 @@ namespace AudioDB
             InitializeComponent();
 
             LoadForm();
-
-            DataTable dt = Functions.GetSqlInstances(true);
         }
 
         #region BtnEvents
@@ -50,7 +48,8 @@ namespace AudioDB
                 {
                     rootPath = fBD.SelectedPath;
 
-                    gvAudios.RowsClear();
+                    gvAudios.SetPropertyInThread("DataSource", null);
+
                     //ListAudoFile();
                     ListAudoFile2();
                 })).Start();
@@ -136,7 +135,8 @@ namespace AudioDB
             AudioDAL.DeleteAudios();
 
             string[] filePaths = Directory.GetFiles(rootPath, "*.*", SearchOption.AllDirectories);
-            lblTotal.SetText("Total " + filePaths.Length);
+            //lblTotal.SetText("Total " + filePaths.Length);
+            lblTotal.SetPropertyInThread("Text", "Total " + filePaths.Length);
 
             bnAudios.BindingSource = bsAudios;
             bsAudios.DataSource = new PageOffsetList();
@@ -165,11 +165,12 @@ namespace AudioDB
         {
             resultMessage = "";
 
-            AudioDAL.DeleteAudios();
+            //AudioDAL.DeleteAudios();
 
             string[] filePaths = Directory.GetFiles(rootPath, "*.*", SearchOption.AllDirectories);
-            lblTotal.SetText("Total " + filePaths.Length);
-            
+            //lblTotal.SetText("Total " + filePaths.Length);
+            lblTotal.SetPropertyInThread("Text", "Total " + filePaths.Length);
+
             //bnAudios.SetPropertyInThread("BindingSource", bsAudios);
             //bnAudios.SetBindingSourceSource(bsAudios, new PageOffsetList());
 
@@ -216,21 +217,20 @@ namespace AudioDB
         private void LoadForm()
         {
             AudioDAL = new AudioDAL();
-
-            //rootPath = fBD.SelectedPath = "C:\\Users\\hayri.PIXELSOFTOFFICE\\Desktop\\Hayri\\Music";
+            
             rootPath = fBD.SelectedPath = "F:\\Music";
         }
 
         private void SetAudoFile(string filePath)
         {
-            int messageType = 0;
-            string message = "";
+            //int messageType = 0;
+            //string message = "";
 
             try
             {
                 TagLib.File audioFile = TagLib.File.Create(filePath);
 
-                AudioDAL.InsertUpdateAudioFile(audioFile, out message, out messageType);
+                //AudioDAL.InsertUpdateAudioFile(audioFile, out message, out messageType);
                 audioFiles.Add(audioFile);
                 //gvAudios.AddRow(GetNewRow(audioFile));
 
