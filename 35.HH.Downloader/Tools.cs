@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 using _35.HH.Core;
 
-namespace Downloader
+namespace _35.HH.Downloader
 {
     public static class Tools
     {
@@ -16,7 +16,7 @@ namespace Downloader
         }
         public static void SetCounter(this Label lbl, int counter)
         {
-            lbl.SetText(lbl.Text.Split(new string[] { " : " }, StringSplitOptions.None)[0] + " : " + counter);
+            lbl.SetPropertyInThread("Text", lbl.Text.Split(new string[] { " : " }, StringSplitOptions.None)[0] + " : " + counter);
         }
 
         public static int GetCounter(this Label lbl)

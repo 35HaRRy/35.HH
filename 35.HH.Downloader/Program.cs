@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Windows.Forms;
 
-namespace Downloader
+namespace _35.HH.Downloader
 {
     internal class Program
     {
@@ -11,7 +11,7 @@ namespace Downloader
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
+            //Application.Run(new Downloader());
             Application.Run(new YoutubeDownloader());
         }
     }

@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 
-namespace Downloader
+namespace _35.HH.Downloader
 {
     public class DataGridViewProgressColumn : DataGridViewImageColumn
     {

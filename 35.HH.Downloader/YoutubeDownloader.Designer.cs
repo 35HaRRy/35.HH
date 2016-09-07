@@ -1,4 +1,4 @@
-﻿namespace Downloader
+﻿namespace _35.HH.Downloader
 {
     partial class YoutubeDownloader
     {
@@ -33,7 +33,7 @@
             this.gvFiles = new System.Windows.Forms.DataGridView();
             this.gvcLink = new System.Windows.Forms.DataGridViewLinkColumn();
             this.gvcTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gvcProgress = new Downloader.DataGridViewProgressColumn();
+            this.gvcProgress = new global::_35.HH.Downloader.DataGridViewProgressColumn();
             this.gvcStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gvcStatusIcon = new System.Windows.Forms.DataGridViewImageColumn();
             this.gvcErrorNodeString = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -42,7 +42,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.fbd = new System.Windows.Forms.FolderBrowserDialog();
             this.btnSelectedLists = new System.Windows.Forms.Button();
-            this.dataGridViewProgressColumn1 = new Downloader.DataGridViewProgressColumn();
+            this.dataGridViewProgressColumn1 = new global::_35.HH.Downloader.DataGridViewProgressColumn();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.lblUnSuccessful = new System.Windows.Forms.Label();
             this.lblSuccessful = new System.Windows.Forms.Label();

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AudioDB {
+namespace _35.HH.AudioDB {
     using System;
     
     

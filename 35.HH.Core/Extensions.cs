@@ -35,7 +35,8 @@ namespace _35.HH.Core
                 PropertyInfo propertyInfo = fieldType.GetProperty(GetPropertyNameForField(propertyTitle, fieldType.Name, false));
                 if (propertyInfo != null)
                     //propertyInfo.SetValue(field, value != null ? (value[0] != null ? (value[0] is DataTable ? (DataTable)value[0] : TypeDescriptor.GetConverter(propertyInfo.PropertyType).ConvertFromString(value[0].ToString())) : null) : null);
-                    propertyInfo.SetValue(field, value != null ? (value[0] != null ? (value[0] is DataTable ? (DataTable)value[0] : TypeDescriptor.GetConverter(propertyInfo.PropertyType).ConvertFrom(value[0])) : null) : null);
+                    //propertyInfo.SetValue(field, value != null ? (value[0] != null ? (value[0] is DataTable ? (DataTable)value[0] : TypeDescriptor.GetConverter(propertyInfo.PropertyType).ConvertFrom(value[0])) : null) : null);
+                    propertyInfo.SetValue(field, value != null ? (value[0] != null ? (value[0] is DataTable ? (DataTable)value[0] : value[0]) : null) : null);
                 else
                 {
                     IEnumerable<MethodInfo> mInfos = fieldType.GetMethods().Where(x => x.Name == GetPropertyNameForField(propertyTitle, fieldType.Name, false) && x.GetParameters().Length == value.Length);
@@ -169,30 +170,30 @@ namespace _35.HH.Core
         #endregion
 
         #region Set&Craete
-        //delegate void AddRowCallback(DataGridView gv, DataGridViewRow gc);
+        delegate void AddRowCallback(DataGridView gv, DataGridViewRow gc);
         delegate void UpdateRowCellsCallback(DataGridView gv, DataGridViewRow gvr, DataGridViewCellCollection gvrCells);
-        //delegate void AddColumnCallback(DataGridView gv, DataGridViewColumn gc);
+        delegate void AddColumnCallback(DataGridView gv, DataGridViewColumn gc);
         //delegate void SetVisibiltyCallback(Control control, Boolean visible);
         //delegate void SetTextCallback(Control control, string newText);
-        //delegate void AddItemCallback(ListBox lb, object item);
-        //delegate void ItemsClearCallback(ListBox lb);
-        //delegate void RowsClearCallback(DataGridView dgv);
+        delegate void AddItemCallback(ListBox lb, object item);
+        delegate void ItemsClearCallback(ListBox lb);
+        delegate void RowsClearCallback(DataGridView dgv);
 
         delegate void SetPropertyCallback(Control control, string propertyName, object value);
         delegate void SetBindingSourceCallback(BindingNavigator bn, BindingSource bs, IListSource datasource);
 
         delegate void ProcessDelegate();
 
-        //public static void AddRow(this DataGridView gv, DataGridViewRow gvr)
-        //{
-        //    if (gv.InvokeRequired)
-        //    {
-        //        AddRowCallback _gvr = new AddRowCallback(AddRow);
-        //        gv.Invoke(_gvr, new object[] { gv, gvr });
-        //    }
-        //    else
-        //        gv.Rows.Add(gvr);
-        //}
+        public static void AddRow(this DataGridView gv, DataGridViewRow gvr)
+        {
+            if (gv.InvokeRequired)
+            {
+                AddRowCallback _gvr = new AddRowCallback(AddRow);
+                gv.Invoke(_gvr, new object[] { gv, gvr });
+            }
+            else
+                gv.Rows.Add(gvr);
+        }
         public static void UpdateRowCells(this DataGridView gv, DataGridViewRow gvr, DataGridViewCellCollection gvrCells)
         {
             if (gv.InvokeRequired)
@@ -203,16 +204,16 @@ namespace _35.HH.Core
             else
                 gvr.SetValues(gvrCells.Cast<DataGridViewCell>().Select(x => x.Value).ToArray());
         }
-        //public static void AddColumn(this DataGridView gv, DataGridViewColumn gc)
-        //{
-        //    if (gv.InvokeRequired)
-        //    {
-        //        AddColumnCallback _gc = new AddColumnCallback(AddColumn);
-        //        gv.Invoke(_gc, new object[] { gv, gc });
-        //    }
-        //    else
-        //        gv.Columns.Add(gc);
-        //}
+        public static void AddColumn(this DataGridView gv, DataGridViewColumn gc)
+        {
+            if (gv.InvokeRequired)
+            {
+                AddColumnCallback _gc = new AddColumnCallback(AddColumn);
+                gv.Invoke(_gc, new object[] { gv, gc });
+            }
+            else
+                gv.Columns.Add(gc);
+        }
         //public static void SetVisibilty(this Control control, Boolean visible)
         //{
         //    if (control.InvokeRequired)
@@ -233,36 +234,36 @@ namespace _35.HH.Core
         //    else
         //        control.Text = text;
         //}
-        //public static void AddItem(this ListBox lb, object item)
-        //{
-        //    if (lb.InvokeRequired)
-        //    {
-        //        AddItemCallback _gvr = new AddItemCallback(AddItem);
-        //        lb.Invoke(_gvr, new object[] { lb, item });
-        //    }
-        //    else
-        //        lb.Items.Add(item);
-        //}
-        //public static void ItemsClear(this ListBox lb)
-        //{
-        //    if (lb.InvokeRequired)
-        //    {
-        //        ItemsClearCallback _gvr = new ItemsClearCallback(ItemsClear);
-        //        lb.Invoke(_gvr, new object[] { lb });
-        //    }
-        //    else
-        //        lb.Items.Clear();
-        //}
-        //public static void RowsClear(this DataGridView dgv)
-        //{
-        //    if (dgv.InvokeRequired)
-        //    {
-        //        RowsClearCallback _dgv = new RowsClearCallback(RowsClear);
-        //        dgv.Invoke(_dgv, new object[] { dgv });
-        //    }
-        //    else
-        //        dgv.Rows.Clear();
-        //}
+        public static void AddItem(this ListBox lb, object item)
+        {
+            if (lb.InvokeRequired)
+            {
+                AddItemCallback _gvr = new AddItemCallback(AddItem);
+                lb.Invoke(_gvr, new object[] { lb, item });
+            }
+            else
+                lb.Items.Add(item);
+        }
+        public static void ItemsClear(this ListBox lb)
+        {
+            if (lb.InvokeRequired)
+            {
+                ItemsClearCallback _gvr = new ItemsClearCallback(ItemsClear);
+                lb.Invoke(_gvr, new object[] { lb });
+            }
+            else
+                lb.Items.Clear();
+        }
+        public static void RowsClear(this DataGridView dgv)
+        {
+            if (dgv.InvokeRequired)
+            {
+                RowsClearCallback _dgv = new RowsClearCallback(RowsClear);
+                dgv.Invoke(_dgv, new object[] { dgv });
+            }
+            else
+                dgv.Rows.Clear();
+        }
 
         public static void SetPropertyInThread(this Control control, string propertyName, object value)
         {
@@ -285,12 +286,6 @@ namespace _35.HH.Core
             else
                 bs.DataSource = datasource;
         }
-        //public static void SetProperty(this Control control, string propertyName, object value)
-        //{
-        //    PropertyInfo pInfo = control.GetType().GetProperty(propertyName);
-        //    if (pInfo != null)
-        //        pInfo.SetValue(control, value);
-        //}
         #endregion
 
         #region Drawing

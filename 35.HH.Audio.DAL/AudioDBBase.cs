@@ -5,7 +5,7 @@ using _35.HH.Core;
 
 using PixelSoftOffice.Data;
 
-namespace _35.HH.AudioDAL
+namespace _35.HH.Audio.DAL
 {
     public class AudioDBBase : Base
     {

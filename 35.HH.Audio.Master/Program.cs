@@ -16,7 +16,7 @@ namespace _35.HH.MusicMaster
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main());
+            Application.Run(new Master());
         }
     }
 }

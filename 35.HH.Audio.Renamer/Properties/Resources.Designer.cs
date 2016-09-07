@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AudioRenamer.Properties {
+namespace _35.HH.AudioRenamer.Properties {
     using System;
     
     

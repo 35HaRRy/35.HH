@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AudioDB.Properties {
+namespace _35.HH.AudioDB.Properties {
     using System;
     
     

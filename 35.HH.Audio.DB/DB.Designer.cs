@@ -1,6 +1,6 @@
-﻿namespace AudioDB
+﻿namespace _35.HH.AudioDB
 {
-    partial class Form1
+    partial class DB
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DB));
             this.gvAudios = new System.Windows.Forms.DataGridView();
             this.fBD = new System.Windows.Forms.FolderBrowserDialog();
             this.lblTotal = new System.Windows.Forms.Label();
@@ -74,8 +74,8 @@
             this.gvAudios.AllowUserToAddRows = false;
             this.gvAudios.AllowUserToDeleteRows = false;
             this.gvAudios.AllowUserToOrderColumns = true;
-            this.gvAudios.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.gvAudios.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gvAudios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvAudios.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {

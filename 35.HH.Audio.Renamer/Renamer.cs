@@ -4,9 +4,9 @@ using System.Data;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace AudioRenamer
+namespace _35.HH.AudioRenamer
 {
-    public partial class Form1 : Form
+    public partial class Renamer : Form
     {
         #region Items
         private string rootPath;
@@ -17,7 +17,7 @@ namespace AudioRenamer
         private TagLib.File audioFile; 
         #endregion
 
-        public Form1()
+        public Renamer()
         {
             InitializeComponent();
 

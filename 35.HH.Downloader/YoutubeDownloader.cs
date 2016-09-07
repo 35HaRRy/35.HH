@@ -2,17 +2,12 @@
 using System.IO;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Drawing;
 using System.Xml.Linq;
 using System.Threading;
 using System.Diagnostics;
 using System.Windows.Forms;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-
-using Google.Apis.Upload;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using Google.Apis.YouTube.v3;
@@ -21,12 +16,9 @@ using Google.Apis.YouTube.v3.Data;
 
 using YoutubeExtractor;
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-
 using _35.HH.Core;
 
-namespace Downloader
+namespace _35.HH.Downloader
 {
     public partial class YoutubeDownloader : Form
     {
@@ -254,7 +246,7 @@ namespace Downloader
                             else
                             {
                                 DataGridViewRow gvr = GetNewRow("https://www.youtube.com/watch?v=" + playlistItem.Snippet.ResourceId.VideoId, "");
-                                Functions.AddRow(gvFiles, gvr);
+                                gvFiles.AddRow(gvr);
                                 UpdateRow(gvr, 0.0, playlistItem.Snippet.Title, "Video başlığında '< > : ? / \\ * \" |' karakterleri olmamalı", -1);
 
                                 lblUnSuccessful.IncreaseCounter();
@@ -268,7 +260,7 @@ namespace Downloader
                     //catch (Exception ex)
                     //{
                     //    DataGridViewRow gvr = GetNewRow("http://www.youtube.com/playlist?list=" + playListId, "");
-                    //    Functions.AddRow(gvFiles, gvr);
+                    //    gvFiles.AddRow(gvr);
                     //    UpdateRow(gvr, 0.0, "", ex.Message, -1);
 
                         //FinishProcesses();
@@ -281,7 +273,7 @@ namespace Downloader
             DataGridViewRow gvr = GetNewRow(link, linkValue);
             try
             {
-                Functions.AddRow(gvFiles, gvr);
+                gvFiles.AddRow(gvr);
 
                 IEnumerable<VideoInfo> videoInfos = DownloadUrlResolver.GetDownloadUrls(link);
                 VideoInfo video = videoInfos.Where(info => info.CanExtractAudio).OrderByDescending(info => info.AudioBitrate).First();

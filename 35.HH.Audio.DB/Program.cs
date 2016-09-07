@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace AudioDB
+namespace _35.HH.AudioDB
 {
     static class Program
     {
@@ -16,7 +13,7 @@ namespace AudioDB
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new DB());
         }
     }
 }

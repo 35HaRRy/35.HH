@@ -11,9 +11,9 @@ using System.Collections.Generic;
 using _35.HH.Core;
 using _35.HH.Audio.DAL;
 
-namespace AudioDB
+namespace _35.HH.AudioDB
 {
-    public partial class Form1 : Form
+    public partial class DB : Form
     {
         #region Properities
         private AudioDAL AudioDAL;
@@ -31,7 +31,7 @@ namespace AudioDB
         public List<TagLib.File> audioFiles = new List<TagLib.File>();
         #endregion
 
-        public Form1()
+        public DB()
         {
             InitializeComponent();
 
@@ -60,7 +60,7 @@ namespace AudioDB
         private void btnDBList_Click(object sender, EventArgs e)
         {
             gvAudios.AutoGenerateColumns = false;
-            gvAudios.DataSource = AudioDAL.GetAudios();
+            gvAudios.DataSource = AudioDAL1.GetAudios();
         }
         private void btnCheckSDElemnts_Click(object sender, EventArgs e)
         {
@@ -132,7 +132,7 @@ namespace AudioDB
         {
             resultMessage = "";
 
-            AudioDAL.DeleteAudios();
+            AudioDAL1.DeleteAudios();
 
             string[] filePaths = Directory.GetFiles(rootPath, "*.*", SearchOption.AllDirectories);
             //lblTotal.SetText("Total " + filePaths.Length);
@@ -216,7 +216,7 @@ namespace AudioDB
         #region Utils
         private void LoadForm()
         {
-            AudioDAL = new AudioDAL();
+            AudioDAL1 = new AudioDAL();
             
             rootPath = fBD.SelectedPath = "F:\\Music";
         }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Downloader.Properties
+namespace _35.HH.Downloader.Properties
 {
 
 

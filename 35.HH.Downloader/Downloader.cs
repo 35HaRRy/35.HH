@@ -19,9 +19,9 @@ using YoutubeExtractor;
 
 using _35.HH.Core;
 
-namespace Downloader
+namespace _35.HH.Downloader
 {
-    public partial class Form1 : Form
+    public partial class Downloader : Form
     {
         #region Properities
         public XDocument doc;
@@ -38,7 +38,7 @@ namespace Downloader
         private string urlFile = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\links.html"; 
         #endregion
 
-        public Form1()
+        public Downloader()
         {
             InitializeComponent();
 
@@ -271,7 +271,7 @@ namespace Downloader
             DataGridViewRow gvr = GetNewRow(link, nodeString);
             try
             {
-                Functions.AddRow(gvFiles, gvr);
+                gvFiles.AddRow(gvr);
 
                 IEnumerable<VideoInfo> videoInfos = DownloadUrlResolver.GetDownloadUrls(link);
                 VideoInfo video = videoInfos.Where(info => info.CanExtractAudio).OrderByDescending(info => info.AudioBitrate).First();
