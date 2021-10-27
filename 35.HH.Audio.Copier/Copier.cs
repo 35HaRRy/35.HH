@@ -16,9 +16,9 @@ namespace _35.HH.Copier
         public FileInfo[] sourceFiles;
         public char sourceRule = '-';
 
-        public string sourcePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Musics\";
-        public string destionationPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Yabancı\";
-        
+        public string sourcePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Source\";
+        public string destionationPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Downloaded Musics\Yabancı\";
+
         public List<string> copiedFileNames = new List<string>();
         #endregion
 
@@ -45,10 +45,10 @@ namespace _35.HH.Copier
             DirectoryInfo sourceDirectory = new DirectoryInfo(sourcePath);
             sourceFiles = sourceDirectory.GetFiles().OrderBy(x => x.Name).ToArray<FileInfo>();
             lblSourceFileCount.SetPropertyInThread("Text", sourceFiles.Length.ToString());
-            
+
             copiedFileNames = new List<string>();
             foreach (FileInfo sourceFile in sourceFiles)
-            {                
+            {
                 sourceRuleName = sourceFile.Name.Split(sourceRule)[0].Trim();
                 if (sourceRuleName != lastRuleName)
                 {
